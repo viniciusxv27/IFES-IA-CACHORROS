@@ -20,7 +20,7 @@ lista_json = json.dumps(json_response).replace("message", "Raças")
 #Formata o código JSON retornado e muda o message para Raças
 
 table = pd.read_json(lista_json)
-#Le o código JSON e ttansforma em tabela
+#Le o código JSON e transforma em tabela
     
 print(table)
 #Imprime a tabela na tela
