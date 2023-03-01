@@ -3,13 +3,15 @@ import tensorflow as tf
 tf.config.run_functions_eagerly(True)
 
 # Diretório de treinamento e teste
-train_dir = "cachorros/treino"
-test_dir = "cachorros/teste"
+train_dir = "cachorros/treino/"
+test_dir = "cachorros/teste/"
 
 # Cria geradores de imagem para dados de treinamento e teste
 train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 test_datagen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
+print(train_datagen)
+print(test_datagen)
 train_generator = train_datagen.flow_from_directory(
         train_dir,
         target_size=(224, 224),
@@ -40,23 +42,24 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.MaxPooling2D((2, 2)),
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(512, activation='relu'),
-    tf.keras.layers.Dense(4, activation='softmax')
+    tf.keras.layers.Dense(2, activation='softmax')
 ])
 
 # Compila o modelo
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'], run_eagerly=True)
 
 # Treina o modelo
-history = model.fit(
-      train_generator,
-      steps_per_epoch=train_generator.samples // train_generator.batch_size,
-      epochs=4,
-      validation_data=validation_generator,
-      validation_steps=validation_generator.samples // validation_generator.batch_size)
+history = model.fit(validation_generator, epochs=4)
 
 # Avalia a acurácia do modelo com dados de teste
-test_loss, test_acc = model.evaluate(validation_generator, verbose=4)
-print('Assertividade:', test_acc)
+test_loss, test_acc = model.evaluate(validation_generator, verbose=1)
+
+assetividade = "{:.0f}%".format(test_acc*100)
+
+print('Assertividade:', assetividade)
+
+# SALVAR O ARQUIVO (OPCIONAL)
+# model.save("modelo_cachorros.h5")
 
 
 '''
