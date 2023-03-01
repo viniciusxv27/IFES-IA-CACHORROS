@@ -54,7 +54,7 @@ history = model.fit(validation_generator, epochs=4)
 # Avalia a acurácia do modelo com dados de teste
 test_loss, test_acc = model.evaluate(validation_generator, verbose=1)
 
-assetividade = "{:.0f}%".format(test_acc*100)
+assetividade = "±{:.0f}%".format(test_acc*100)
 
 print('Assertividade:', assetividade)
 
